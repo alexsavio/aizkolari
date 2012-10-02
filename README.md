@@ -4,14 +4,14 @@ Aizkolari
 Aizkolari is a set of tools in Python to measure distances from different groups of Nifti images (brain MRI in my case) to do a supervised feature selection for supervised classification without circularity.
 
 It makes use of 
-- Python: http://www.python.org/
-- iPython: http://ipython.org/
-- Numpy: http://numpy.scipy.org/
-- Scipy: http://www.scipy.org/
-- FSL: http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/
-- Nibabel: http://nipy.sourceforge.net/nibabel/
-- Matplotlib: http://matplotlib.org/
-- SVMPerf: http://www.cs.cornell.edu/people/tj/svm_light/old/svm_perf_v2.50.html
+- Python 2.7: http://www.python.org/
+- iPython 0.12.1: http://ipython.org/
+- Numpy 1.6.2: http://numpy.scipy.org/
+- Scipy 0.11: http://www.scipy.org/
+- FSL 5.0: http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/
+- Nibabel 1.3.0: http://nipy.sourceforge.net/nibabel/
+- Matplotlib 1.1.1: http://matplotlib.org/
+- SVMPerf 2.5: http://www.cs.cornell.edu/people/tj/svm_light/old/svm_perf_v2.50.html
 
 
 #For Ubuntu users:
