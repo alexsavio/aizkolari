@@ -22,7 +22,8 @@ sudo apt-get install python-argparse python-numpy python-numpy-ext python-matplo
 sudo apt-get install ipython python-nifti python-nitime
 
 - Using SVMPerf:
-In order to use aizkolari_svmperf.py you will need to download and install SVMPerf. It has argument flags which you'll have to indicate if you don't have SVMPerf binaries in the same folder along the aizkolari Python files.
+
+In order to use aizkolari_svmperf.py you will need to download and install SVMPerf. Aizkolari scripts that use svmperf have argument flags which you'll have to indicate if you don't have SVMPerf binaries in the same folder along the aizkolari Python files.
 
 - Installing FSL:
 To install FSL on Ubuntu or Debian I recommend: http://neuro.debian.net/
