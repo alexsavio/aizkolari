@@ -1,0 +1,156 @@
+#-----------------------------------------------------------------------------
+#creating cv folds labeled lists
+HOSTNAME=`hostname`
+if [ "$HOSTNAME" =  "azteca" ]; then
+   aizkod=/home/alexandre/Dropbox/Documents/phd/work/aizkolari
+   dd=/opt/work/spm_oasis
+elif [ "$HOSTNAME" =  "corsair" ]; then
+   aizkod=/home/alexandre/Dropbox/Documents/phd/work/aizkolari
+   dd=/scratch
+fi
+
+cd ${dd}
+
+if [ "$HOSTNAME" =  "azteca" ]; then
+   mask=${dd}/templates/rMNI152_T1_1mm_brain_mask_dil.nii.gz
+   d=spmnewseggm
+elif [ "$HOSTNAME" =  "corsair" ]; then
+   mask=${dd}/nifti_seg_mask_dil.nii.gz
+   d=niftiseg_gm
+fi
+
+
+#d=spmnewseggm
+#d=tom_modgm
+#d=jacs
+#d=niftiseg_gm
+
+expname='all'
+verbose=2
+
+cd $d
+ls *nii.gz >> ../tmp${d}
+cd ..
+sed 's/control/0,control/g' tmp${d}  > tmp${d}1
+sed 's/patient/1,patient/g' tmp${d}1 > tmp${d}2
+mv -v tmp${d}2 subjs_${d}
+rm tmp*
+
+#-----------------------------------------------------------------------------
+#creating cv folds labeled lists
+datadir=${dd}/$d
+classf=${dd}/classes
+subjsf=${dd}/subjs_${d}
+outdir=${dd}/loo_${d}
+bckpd=${bkpd}/loo_${d}
+mkdir ${outdir}
+
+allf=$outdir/all.txt
+cp $subjsf $allf
+
+n=`cat $allf | wc -l`
+
+#-----------------------------------------------------------------------------
+#creating measure volumes
+
+#mask=${FSLDIR}/data/standard/MNI152_T1_1mm_brain_mask_dil.nii.gz
+#mask=${dd}/templates/rMNI152_T1_1mm_brain_mask_dil.nii.gz
+
+cd ${outdir}
+
+subjsf=${outdir}/all.txt
+
+#m='infogain'
+#m='pearson'
+#m='bhattacharyya'
+#m='ttest'
+measures="pearson ttest bhattacharyya"
+for m in $measures; do
+  ${aizkod}/aizkolari_measure.py --datadir $datadir --classesf $classf --insubjsf $subjsf --outdir $outdir --mask $mask --measure $m -x ${expname} --abs -v ${verbose} --checklist
+done;
+
+#-----------------------------------------------------------------------------
+#Leave-one-out classification
+
+#measures = ['jacs', 'modulatedgm', 'norms', 'trace', 'geodan']
+measures = ['jacs', 'modulatedgm']
+
+thrs     = [80, 90, 95, 99, 99.5, 99.9, 100]
+
+perfmeas = ['Accuracy', 'Precision', 'Recall', 'F1', 'PRBEP', 'ROCArea', 'AvgPrec', 'Specificity', 'Brier-score']
+
+cgrid     = [10**-3, 10**-2, 10**-1, 10**0, 10**1, 10**2]
+scaled    = True
+
+#kernel
+kernels   = ['linear', 'rbf']
+knparams  = [1, 2]
+kidx      = 0
+kernel    = kernels [kidx]
+nparams   = knparams[kidx]
+
+#if you are repeating this exact same experiment, set to true
+redoing = False
+
+#set SVM optimization function to ROCArea
+rocarea_opt = False
+
+#set if stratified gridsearch is done
+stratified = True
+
+#number of parallel processes
+procs = 1
+
+#start
+
+#-----------------------------------------------------------------------------
+#type='numpybin'
+type='svmperf'
+
+#thr=95
+thr=99
+thrs=[85 90 95 99]
+
+#m=bhattacharyya
+#s=415
+measures="pearson ttest bhattacharyya"
+measures="pearson"
+measures="ttest"
+
+for k in `seq $n`; do
+  for m in $measures; do
+   s=$[$k - 1]
+
+   ${aizkod}/aizkolari_measure.py --datadir $datadir --classesf $classf --insubjsf $subjsf --outdir $outdir --mask $mask --measure $m -x ${expname} --abs -v ${verbose} -l ${s} --checklist
+
+   lst=`find ${m}_${expname} -name "*excluded${s}*.nii.gz"`
+
+   for f in $lst; do
+     odir=`dirname $f`
+     ${aizkod}/aizkolari_extract_featset.py --datadir $datadir --mask $f --subjsf $subjsf --leave ${s} --outdir $odir --name $m --abs --scale --thrP ${thr} --type $type -v ${verbose}
+
+     featsf=`find ${odir} -name "feats*excluded${s}.*.${type}"`
+
+     for ft in $featsf; do
+        basenom=`basename $ft`
+        testf=`find ${odir} -name "excluded_*${basenom}"`
+
+        ${aizkod}/aizkolari_svmperf.py --featsf $ft --testf $testf --outdir $odir --kernel 0 --gridsearch --loss_func 2 -v ${verbose}
+
+        rm $ft
+        rm $testf
+        #rm $f
+        find -name "*excluded*${s}*gridsearch*" | while read line; do rm $line; done
+     done;
+   done;
+
+  done;
+
+done;
+
+#rm checklist
+
+
+
+
+
