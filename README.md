@@ -43,4 +43,6 @@ http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio
 Alexandre Savio, Manuel Graña - ''Deformation based feature selection for computer aided diagnosis of Alzheimer’s disease'' - Expert Systems with Applications
 (http://dx.doi.org/10.1016/j.eswa.2012.09.009)
 
+The work done here has been possible thanks to Prof. Manuel Graña and a FPI fellowship from the Government of the Basque Country.
+
 Thank you very much.
