@@ -23,3 +23,13 @@ sudo apt-get install ipython python-nifti python-nitime
 
 - Using SVMPerf:
 In order to use aizkolari_svmperf.py you will need to download and install SVMPerf. It has argument flags which you'll have to indicate if you don't have SVMPerf binaries in the same folder along the aizkolari Python files.
+
+#Support
+Any doubt on how to use it, any change or idea you would like to have implemented, please contact me.
+
+#Reference:
+- Please, cite this paper if you will be using this toolset.
+Alexandre Savio, Manuel Graña - 'Deformation based feature selection for computer aided diagnosis of Alzheimer’s disease' - Expert Systems with Applications
+(http://dx.doi.org/10.1016/j.eswa.2012.09.009)
+
+Thank you very much.
