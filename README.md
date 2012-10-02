@@ -24,6 +24,9 @@ sudo apt-get install ipython python-nifti python-nitime
 - Using SVMPerf:
 In order to use aizkolari_svmperf.py you will need to download and install SVMPerf. It has argument flags which you'll have to indicate if you don't have SVMPerf binaries in the same folder along the aizkolari Python files.
 
+- Installing FSL:
+To install FSL on Ubuntu or Debian I recommend: http://neuro.debian.net/
+
 #Motivation
 My experiment consisted of supervised feature extraction of huge amount of data, which didn't allow me to load everything on RAM memory. The main motivation to do this was being able to slice all volumes (masks as well), calculate the measures I wanted and then merge these slices again. I went a little bit further programming the extraction and exportation of the feature sets to svmperf, weka and octave and the cross-validation k-folding, grid search for classification and results summarizing.
 
@@ -32,8 +35,9 @@ Any doubt on how to use it, any change or idea you would like to have implemente
 http://www.ehu.es/ccwintco/index.php/Usuario:Alexsavio
 
 #Reference:
-- Please, cite this paper if you will be using this toolset.
-Alexandre Savio, Manuel Graña - 'Deformation based feature selection for computer aided diagnosis of Alzheimer’s disease' - Expert Systems with Applications
+- Please, cite this paper if you will be using this toolset:
+
+Alexandre Savio, Manuel Graña - ''Deformation based feature selection for computer aided diagnosis of Alzheimer’s disease'' - Expert Systems with Applications
 (http://dx.doi.org/10.1016/j.eswa.2012.09.009)
 
 Thank you very much.
