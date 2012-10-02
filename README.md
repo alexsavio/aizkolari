@@ -28,7 +28,8 @@ It makes use of
  To install FSL on Ubuntu or Debian I recommend: http://neuro.debian.net/
 
 #Motivation
-My experiment consisted of supervised feature extraction of huge amount of data, which didn't allow me to load everything on RAM memory. The main motivation to do this was being able to slice all volumes (masks as well), calculate the measures I wanted and then merge these slices again. I went a little bit further programming the extraction and exportation of the feature sets to svmperf, weka and octave and the cross-validation k-folding, grid search for classification and results summarizing.
+An experiment for my PhD consisted of supervised feature extraction of a good amount of data that I could not load entirelly on RAM memory. I decided to slice all volumes (masks as well), calculate the measures I wanted for each slice across all subjects (now loading them in RAM) and then merging these results for each slice to obtain a whole volume with the result. For those familiar with FSL tools, my inspiration was the bedpostx scripts. 
+Later I went a little bit further programming the extraction and exportation of the feature sets to svmperf, weka and octave and k-fold or leave-one-out cross-test, grid search for SVM parameter tuning (linear and RBF) and summarizing the results.
 
 The name of the toolset comes from the Basque language and the idea of slicing the data: http://en.wikipedia.org/wiki/Aizkolaritza.
 In Spain there is an expression: "cabeza de serrín" which literally means "head full of sawdust".
