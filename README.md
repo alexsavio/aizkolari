@@ -15,11 +15,11 @@ It makes use of
 
 
 #For Ubuntu users:
-#DEPENDENCIES:
+- Dependencies:
 sudo apt-get install python-argparse python-numpy python-numpy-ext python-matplotlib python-scipy python-nibabel
 
-#For development:
+- For development:
 sudo apt-get install ipython python-nifti python-nitime
 
-#SVMPerf
+- Using SVMPerf:
 In order to use aizkolari_svmperf.py you will need to download and install SVMPerf. It has argument flags which you'll have to indicate if you don't have SVMPerf binaries in the same folder along the aizkolari Python files.
