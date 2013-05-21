@@ -21,7 +21,7 @@ import warnings
 import pickle
 import shelve
 import logging
-
+import commands
 import nibabel as nib
 import numpy as np
 
@@ -74,6 +74,28 @@ def exec_comm (comm_line):
   if p.returncode != 0:
     raise IOError(err)
   return result
+
+#----------------------------------------------------------------
+def exec_command (line):
+  return commands.getoutput(line)
+
+#-------------------------------------------------------------------------------
+def which(program):
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
+
+    return None
 
 #-------------------------------------------------------------------------------
 def exec_comm_nowait (comm_line):
@@ -877,7 +899,7 @@ def get_groups_in_fname (fname):
 #-------------------------------------------------------------------------------
 
 def shelve_vars (ofname, varlist):
-   mashelf = shelve.open(ofname, 'n') #writeback=True
+   mashelf = shelve.open(ofname, 'n', writeback=True)
 
    for key in varlist:
       try:
@@ -1071,7 +1093,11 @@ def save_nibabel (ofname, vol, affine, header=None):
    #saves nifti file
    log.debug('Saving nifti file: ' + ofname)
    ni = nib.Nifti1Image(vol, affine, header)
-   nib.save(ni, ofname)
+   if ofname != '':
+      log.debug('Saving nifti file: ' + ofname)
+      nib.save(ni, ofname)
+   else:
+      return ni
 
 #-------------------------------------------------------------------------------
 def join_strlist_to_string (strlist):
