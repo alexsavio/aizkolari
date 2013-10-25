@@ -1,6 +1,8 @@
 Aizkolari
 =========
 
+Aizkolari is a Python module distributed under the 3-Clause BSD license.
+
 Aizkolari is a set of tools in Python to measure distances from different groups of Nifti images (brain MRI in my case) to do a supervised feature selection for supervised classification without circularity.
 
 It makes use of 
